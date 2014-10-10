@@ -1,0 +1,11 @@
+[Unit]
+Description=Couchpotato
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill couchpotato
+ExecStartPre=-/usr/bin/docker rm couchpotato
+ExecStart=/usr/bin/docker run -d --name=couchpotato -e VIRTUAL_HOST=couchpotato -v /media/series:/series -v /media/movies/:/movies --volumes-from data  -p 5050:5050 couchpotato
+ExecStop=/usr/bin/docker stop couchpotato
